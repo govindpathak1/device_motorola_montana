@@ -479,13 +479,19 @@ public class KeyHandler implements DeviceKeyHandler {
 
         boolean isScreenOn = mPowerManager.isScreenOn();
 
-        // We only want ACTION_DOWN event
+        // We only want ACTION_UP event
         if (event.getAction() != KeyEvent.ACTION_UP) {
             return true;
         }
         
-        if (isFPScanCode && fpGesturePending) {
-            return true;
+        if (isFPScanCode){
+            if (fpGesturePending) {
+                return false;
+            } else {
+                resetFPGestureDelay();
+                fpGesturePending = true;
+                mHandler.postDelayed(fpGestureRunnable, 10);
+            }
         }
 
         if (scanCode != FP_TAP_SCANCODE) {
@@ -495,15 +501,12 @@ public class KeyHandler implements DeviceKeyHandler {
         if (isFPScanCode) {
             if ((!isFPGestureEnabled) || (!isScreenOn && !isFPGestureEnabledOnScreenOff)) {
                 resetDoubleTapOnFP();
-            }else if (!isScreenOn && isFPGestureEnabledOnScreenOff) {
+                return false;
+            }
+            if (!isScreenOn && isFPGestureEnabledOnScreenOff) {
                 processFPScreenOffScancode(scanCode);
             } else {
                 processFPScancode(scanCode);
-            }
-            if (!fpGesturePending) {
-                resetFPGestureDelay();
-                fpGesturePending = true;
-                mHandler.postDelayed(fpGestureRunnable, 10);
             }
         } else if (isScreenOffGesturesScanCode) {
             handleScreenOffScancode(scanCode);
@@ -776,6 +779,8 @@ public class KeyHandler implements DeviceKeyHandler {
             }
         }else{
             processScreenOffScancode(scanCode);
+        }
+    }
 
     private void processScreenOffScancode(int scanCode) {
         int action = 0;
