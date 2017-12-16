@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
--include vendor/motorola/cedric/BoardConfigVendor.mk
+-include vendor/motorola/montana/BoardConfigVendor.mk
 
-LOCAL_PATH := device/motorola/cedric
+LOCAL_PATH := device/motorola/montana
 
 BOARD_VENDOR := motorola-qcom
 
@@ -135,8 +135,8 @@ USE_OPENGL_RENDERER := true
 BOARD_HAVE_QCOM_FM := true
 
 # Init
-TARGET_INIT_VENDOR_LIB := libinit_cedric
-TARGET_RECOVERY_DEVICE_MODULES := libinit_cedric
+TARGET_INIT_VENDOR_LIB := libinit_montana
+TARGET_RECOVERY_DEVICE_MODULES := libinit_montana
 
 # Keymaster
 TARGET_PROVIDES_KEYMASTER := true
@@ -176,7 +176,7 @@ LZMA_RAMDISK_TARGETS := recovery
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += \
-    device/motorola/cedric/sepolicy
+    device/motorola/montana/sepolicy
 
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true
